@@ -1,5 +1,7 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Snake : MonoBehaviour
@@ -151,7 +153,9 @@ public class Snake : MonoBehaviour
     private float horizontalInput, verticalInput;
 
     private float gridMoveTimer;
-    private float gridMoveTimerMax = 0.5f; // La serpiente se moverá a cada segundo
+    private float gridMoveTimerMaxA = 0.5f;
+  /*private float gridMoveTimerMaxB = 0.3f;
+    private float gridMoveTimerMaxC = 0.2f;// La serpiente se moverá a cada segundo*/
 
     private LevelGrid levelGrid;
 
@@ -189,6 +193,10 @@ public class Snake : MonoBehaviour
             case State.Dead:
                 break;
         }
+
+     
+       
+        
     }
 
     public void Setup(LevelGrid levelGrid)
@@ -200,9 +208,9 @@ public class Snake : MonoBehaviour
     private void HandleGridMovement() // Relativo al movimiento en 2D
     {
         gridMoveTimer += Time.deltaTime;
-        if (gridMoveTimer >= gridMoveTimerMax)
+        if (gridMoveTimer >= gridMoveTimerMaxA)
         {
-            gridMoveTimer -= gridMoveTimerMax; // Se reinicia el temporizador
+            gridMoveTimer -= gridMoveTimerMaxA; // Se reinicia el temporizador
 
             SnakeMovePosition previousSnakeMovePosition = null;
             if (snakeMovePositionsList.Count > 0)
@@ -350,7 +358,22 @@ public class Snake : MonoBehaviour
         {
             snakeBodyPartsList[i].SetMovePosition(snakeMovePositionsList[i]);
         }
+
+       
     }
+    public float[] SpeedGrid;
+
+    int index = 0;
+
+    private float SpeedUP;
+
+  /*private float SnakeVelocity()
+    {
+        SpeedGrid[index] = SnakeVelocity();
+    }
+  */
+   
+
 }
 
 
