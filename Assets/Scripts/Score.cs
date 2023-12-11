@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.UI;
 
 public static class Score 
 {

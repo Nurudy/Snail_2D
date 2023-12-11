@@ -20,6 +20,9 @@ public class Snake : MonoBehaviour
         Dead
     }
 
+   
+
+    
     private class SnakeBodyPart
     {
         private SnakeMovePosition snakeMovePosition; // Posición 2D de la SnakeBodyPart
@@ -153,9 +156,11 @@ public class Snake : MonoBehaviour
     private float horizontalInput, verticalInput;
 
     private float gridMoveTimer;
-    private float gridMoveTimerMaxA = 0.5f;
-  /*private float gridMoveTimerMaxB = 0.3f;
-    private float gridMoveTimerMaxC = 0.2f;// La serpiente se moverá a cada segundo*/
+    private float gridMoveTimerMax;
+    public float[] speedGrid = { 0.5f, 0.3f, 0.1f};
+    int index;
+
+
 
     private LevelGrid levelGrid;
 
@@ -180,6 +185,11 @@ public class Snake : MonoBehaviour
         snakeBodyPartsList = new List<SnakeBodyPart>();
 
         state = State.Alive;
+        
+        index = 0;
+
+        gridMoveTimerMax = speedGrid[index];
+        
     }
 
     private void Update()
@@ -192,6 +202,12 @@ public class Snake : MonoBehaviour
                 break;
             case State.Dead:
                 break;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            SnakeVelocity();
+            Debug.Log(gridMoveTimerMax);
         }
 
      
@@ -208,9 +224,9 @@ public class Snake : MonoBehaviour
     private void HandleGridMovement() // Relativo al movimiento en 2D
     {
         gridMoveTimer += Time.deltaTime;
-        if (gridMoveTimer >= gridMoveTimerMaxA)
+        if (gridMoveTimer >= gridMoveTimerMax)
         {
-            gridMoveTimer -= gridMoveTimerMaxA; // Se reinicia el temporizador
+            gridMoveTimer -= gridMoveTimerMax; // Se reinicia el temporizador
 
             SnakeMovePosition previousSnakeMovePosition = null;
             if (snakeMovePositionsList.Count > 0)
@@ -361,17 +377,23 @@ public class Snake : MonoBehaviour
 
        
     }
-    public float[] SpeedGrid;
+    
 
-    int index = 0;
-
-    private float SpeedUP;
-
-  /*private float SnakeVelocity()
+   private void SnakeVelocity()
     {
-        SpeedGrid[index] = SnakeVelocity();
+        index += 1;
+
+        if(index >= speedGrid.Length) { index = 0; }
+
+        gridMoveTimerMax = speedGrid[index];
+
+
+
+
+
+
     }
-  */
+  
    
 
 }
