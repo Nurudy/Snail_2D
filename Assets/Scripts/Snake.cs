@@ -160,12 +160,13 @@ public class Snake : MonoBehaviour
     public float[] speedGrid = { 0.5f, 0.3f, 0.1f};
     int index;
 
-
+    public delegate void OnSpeedChangeDelegate (float speed);
+    public static event OnSpeedChangeDelegate OnSpeedChange;
 
     private LevelGrid levelGrid;
 
-    private int snakeBodySize; // Cantidad de partes del cuerpo (sin cabeza)
-    private List<SnakeMovePosition> snakeMovePositionsList; // Posiciones y direcciones de cada parte (por orden)
+    private int snakeBodySize; // Partes del cuerpo.
+    private List<SnakeMovePosition> snakeMovePositionsList; // Posiciones y direcciones.
     private List<SnakeBodyPart> snakeBodyPartsList;
 
     private State state;
@@ -177,18 +178,18 @@ public class Snake : MonoBehaviour
         startGridPosition = new Vector2Int(0, 0);
         gridPosition = startGridPosition;
 
-        gridMoveDirection = Direction.Up; // Dirección arriba por defecto
-        transform.eulerAngles = Vector3.zero; // Rotación arriba por defecto
+        gridMoveDirection = Direction.Up; // Dirección arriba 
+        transform.eulerAngles = Vector3.zero; // Rotación arriba 
 
         snakeBodySize = 0;
         snakeMovePositionsList = new List<SnakeMovePosition>();
         snakeBodyPartsList = new List<SnakeBodyPart>();
 
         state = State.Alive;
-        
-        index = 0;
 
-        gridMoveTimerMax = speedGrid[index];
+        index = -1; //asi en la pantalla se muestra la velocidad con la que empezamos (y forzamos que index = 0, ya que en la función sumamos 1) 
+
+        SnakeVelocity();
         
     }
 
@@ -217,7 +218,7 @@ public class Snake : MonoBehaviour
 
     public void Setup(LevelGrid levelGrid)
     {
-        // levelGrid de snake = levelGrid que viene por parámetro
+       
         this.levelGrid = levelGrid;
     }
 
@@ -387,7 +388,10 @@ public class Snake : MonoBehaviour
 
         gridMoveTimerMax = speedGrid[index];
 
-
+        if (OnSpeedChange != null)
+        {
+            OnSpeedChange(gridMoveTimerMax);
+        }
 
 
 
